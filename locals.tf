@@ -1,0 +1,21 @@
+locals{
+    allow_only_approved_services                    = var.allow_only_approved_services ? [""] : []
+    deny_root_user_access                           = var.deny_root_user_access ? [""] : []
+    region_enforcement                              = var.region_enforcement ? [""] : []
+    deny_ability_to_leave_Organization              = var.deny_ability_to_leave_Organization ? [""] : []
+    deny_ability_to_modify_specific_IAM_role        = var.deny_ability_to_modify_specific_IAM_role ? [""] : []
+    deny_deleting_amazon_VPC_flowlogs               = var.deny_deleting_amazon_VPC_flowlogs ? [""] : []
+    require_tag_on_specific_resources               = var.require_tag_on_specific_resources ? [""] : []
+    require_IMDSv2                                  = var.require_IMDSv2 ? [""] : []
+    deny_creation_of_unencrypted_ebs_volume         = var.deny_creation_of_unencrypted_ebs_volume ? [""] : []
+    deny_RDS_unencrypted                            = var.deny_RDS_unencrypted ? [""] : []
+    deny_unencrypted_object_uploads_statement       = var.deny_unencrypted_object_uploads_statement ? [""] : []
+    deny_modifying_S3_Block_Public_Access           = var.deny_modifying_S3_Block_Public_Access ? [""] : []
+    deny_vpc_modification                           = var.deny_vpc_modification ? [""] : []
+    deny_modifying_IAM_password_policy              = var.deny_modifying_IAM_password_policy ? [""] : []
+    deny_creation_savings_plans                     = var.deny_creation_savings_plans ? [""] : []
+    deny_purchasing_reserved_instances              = var.deny_purchasing_reserved_instances ? [""] : []
+    
+    allow_only_approved_Ec2_instance_types          = var.allow_only_approved_Ec2_instance_types ? [""] : []
+    deny_creating_iam_access_keys                   = var.deny_creating_iam_access_keys ? [""] : []
+}
