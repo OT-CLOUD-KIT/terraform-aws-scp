@@ -1,7 +1,7 @@
 resource "aws_organizations_policy" "scp" {
   name        = var.name
   description = "${var.name}-scp"
-  content     = var.deny_all ? data.aws_iam_policy_document.deny_all_access.json : data.aws_iam_policy_document.scp_policy.json
+  content     = data.aws_iam_policy_document.scp_policy.json
   type        = var.type
   tags        = merge(
     {

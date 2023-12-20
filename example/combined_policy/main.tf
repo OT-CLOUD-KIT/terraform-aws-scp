@@ -1,36 +1,57 @@
 provider "aws" {
-  profile = "default"
+  region = var.region
 }
 
 module "policy" {
-    source                                      = "../../"
-    name                                        =  "development"
-    allow_only_approved_services                = false 
-    allowed_services                            = ["ec2:*","s3:*","acm:*","route53:*"]
-    deny_root_user_access                       = false 
-    region_enforcement                          = false   
-    allowed_regions                             = ["us-east-1", "ap-south-1"] 
-    deny_ability_to_leave_Organization          = false 
-    deny_ability_to_modify_specific_IAM_role    = false 
-    protect_iam_role_resources                  = ["arn:aws:iam::XXXXXXXXXXXX:role/test-ec2-role"]
-    deny_deleting_amazon_VPC_flowlogs           = false 
-    require_tag_on_specific_resources           = false  
-    resourcetag_key                             = "Env"
-    resourcetag_value                           = ["true"]
-    require_IMDSv2                              = false 
-    deny_creation_of_unencrypted_ebs_volume     = false 
-    deny_RDS_unencrypted                        = false 
-    deny_unencrypted_object_uploads_statement   = false 
-    deny_modifying_S3_Block_Public_Access       = false 
-    deny_s3_bucket_public_access_resources      = ["arn:aws:s3:::testbucket"]
-    deny_vpc_modification                       = false 
-    deny_modifying_IAM_password_policy          = false 
+  source = "../../"
+  name   = "development-scp" # Policy name
 
-    deny_creation_savings_plans                 = false
-    deny_purchasing_reserved_instances          = false
-     
-    allow_only_approved_Ec2_instance_types      = false 
-    allowed_ec2_instance_types                  = ["*.nano"]
-    deny_creating_iam_access_keys               = false     
-    targets                                     = var.ou_targets
+  # For allowing specific services
+  allow_only_approved_services = true
+  allowed_services             = ["ec2:*", "s3:*", "acm:*", "route53:*"]
+
+  # For allowing creation of resources in a specifc region
+  region_enforcement = true
+  allowed_regions    = ["us-east-1", "ap-south-1"]
+
+  # deny modifying specifc IAM role
+  deny_ability_to_modify_specific_IAM_role = true
+  protect_iam_role_resources               = ["arn:aws:iam::XXXXXXXXXXXX:role/ROLENAME"]
+
+  # For denying deleting VPC Flowflogs
+  deny_deleting_amazon_VPC_flowlogs = true
+
+  # Require tags on resources
+  deny_resource_creation_with_no_tag = true
+  actions                           = ["ec2:RunInstances"]
+  resources                         = ["arn:aws:ec2:*:*:instance/*"]
+  resources_tag = [{
+      test     = "Null"
+      variable = "env"
+      values   = ["dev"]
+    }]
+
+  # Require Instance Metadata Service Version 2
+  require_IMDSv2 = true
+
+  # For denying modification of S3 public access 
+  deny_modifying_S3_Block_Public_Access  = true
+  deny_s3_bucket_public_access_resources = ["arn:aws:s3:::S3BUCKETNAME"]
+
+  # Deny VPC modification and deletion
+  deny_vpc_modification = true
+
+  deny_modifying_IAM_password_policy = true
+
+  deny_creation_savings_plans        = true
+  deny_purchasing_reserved_instances = true
+
+  # Allow only specific instance types ec2 to create
+  allow_only_approved_Ec2_instance_types = true
+  allowed_ec2_instance_types             = ["*.nano"]
+
+  deny_creating_iam_access_keys = true
+
+  # Specify target on which policies will be imposed (like OU's or specific account ids)
+  targets = var.ou_targets
 }

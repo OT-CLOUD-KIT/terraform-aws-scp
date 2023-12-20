@@ -5,7 +5,7 @@ locals{
     deny_ability_to_leave_Organization              = var.deny_ability_to_leave_Organization ? [""] : []
     deny_ability_to_modify_specific_IAM_role        = var.deny_ability_to_modify_specific_IAM_role ? [""] : []
     deny_deleting_amazon_VPC_flowlogs               = var.deny_deleting_amazon_VPC_flowlogs ? [""] : []
-    require_tag_on_specific_resources               = var.require_tag_on_specific_resources ? [""] : []
+    deny_resource_creation_with_no_tag               = var.deny_resource_creation_with_no_tag ? [""] : []
     require_IMDSv2                                  = var.require_IMDSv2 ? [""] : []
     deny_creation_of_unencrypted_ebs_volume         = var.deny_creation_of_unencrypted_ebs_volume ? [""] : []
     deny_RDS_unencrypted                            = var.deny_RDS_unencrypted ? [""] : []
@@ -15,7 +15,6 @@ locals{
     deny_modifying_IAM_password_policy              = var.deny_modifying_IAM_password_policy ? [""] : []
     deny_creation_savings_plans                     = var.deny_creation_savings_plans ? [""] : []
     deny_purchasing_reserved_instances              = var.deny_purchasing_reserved_instances ? [""] : []
-    
     allow_only_approved_Ec2_instance_types          = var.allow_only_approved_Ec2_instance_types ? [""] : []
     deny_creating_iam_access_keys                   = var.deny_creating_iam_access_keys ? [""] : []
 }

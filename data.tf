@@ -1,13 +1,3 @@
-data "aws_iam_policy_document" "deny_all_access" {
-
-    statement {
-      sid       = "DenyAllAccess"
-      effect    = "Deny"
-      actions   = ["*"]
-      resources = ["*"]
-    }
-}
-
 data "aws_iam_policy_document" "scp_policy" {
 
     dynamic "statement" {
@@ -81,16 +71,19 @@ data "aws_iam_policy_document" "scp_policy" {
     }
 
     dynamic "statement" {
-        for_each = local.require_tag_on_specific_resources
+        for_each = local.deny_resource_creation_with_no_tag
         content{
             sid             = "DenyCreateResourceWithNoTag"
             effect          = "Deny"
-            actions         = ["ec2:RunInstances"]
-            resources       = ["arn:aws:ec2:*:*:instance/*"]
-            condition {
-                test        = "Null"
-                variable    = "aws:RequestTag/${var.resourcetag_key}"
-                values      = var.resourcetag_value
+            actions  = var.actions
+            resources = var.resources
+            dynamic "condition" {
+                for_each = var.resources_tag != null ? var.resources_tag : []
+                content {
+                    test     = condition.value.test
+                    variable = "aws:RequestTag/${condition.value.variable}"
+                    values   = condition.value.values
+                }
             }
         }
     }
