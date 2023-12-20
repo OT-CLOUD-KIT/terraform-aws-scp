@@ -4,7 +4,7 @@ provider "aws" {
 
 module "policy" {
   source = "../../"
-  name   = "development-scp" # Policy name
+  name   = "development" # Policy name
 
   # For allowing specific services
   allow_only_approved_services = true

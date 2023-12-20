@@ -4,7 +4,7 @@ provider "aws" {
 
 module "policy" {
   source  = "../../"
-  name    = "development-scp" # Policy name
+  name    = "development" # Policy name
 
   # Specify target on which policies will be imposed (like OU's or specific account ids)
   targets = var.ou_targets
