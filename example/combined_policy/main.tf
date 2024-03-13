@@ -6,13 +6,13 @@ module "policy" {
   source = "../../"
   name   = "development" # Policy name
 
-  # For allowing specific services
-  allow_only_approved_services = true
-  allowed_services             = ["ec2:*", "s3:*", "acm:*", "route53:*"]
+  # For denying specific services
+  deny_only_approved_services = true
+  deny_services             = ["s3:*", "acm:*"]
 
   # For allowing creation of resources in a specifc region
   region_enforcement = true
-  allowed_regions    = ["us-east-1", "ap-south-1"]
+  allowed_regions    = ["us-east-1", "us-east-2"]
 
   # deny modifying specifc IAM role
   deny_ability_to_modify_specific_IAM_role = true
@@ -27,8 +27,8 @@ module "policy" {
   resources                         = ["arn:aws:ec2:*:*:instance/*"]
   resources_tag = [{
       test     = "Null"
-      variable = "env"
-      values   = ["dev"]
+      variable = "Owner"
+      values   = ["true"]
     }]
 
   # Require Instance Metadata Service Version 2
@@ -48,7 +48,8 @@ module "policy" {
 
   # Allow only specific instance types ec2 to create
   allow_only_approved_Ec2_instance_types = true
-  allowed_ec2_instance_types             = ["*.nano"]
+  allowed_ec2_instance_types             = ["t2.small", "t2.nano", "t2.medium", "t2.micro", "t2.large", "t3.small","t3.nano", "t3.micro",
+"t3.medium", "t3.large", "t3a.micro", "t3a.nano", "t3a.small", "t3a.medium", "t3a.large"]
 
   deny_creating_iam_access_keys = true
 

@@ -1,11 +1,11 @@
 data "aws_iam_policy_document" "scp_policy" {
 
     dynamic "statement" {
-        for_each = local.allow_only_approved_services
+        for_each = local.deny_only_approved_services
         content {
-            sid       = "AllowOnlyApprovedServices"
-            effect    = "Allow"
-            actions   = var.allowed_services
+            sid       = "DenyApprovedServices"
+            effect    = "Deny"
+            actions   = var.deny_services
             resources = ["*"]
         }
     }
@@ -30,7 +30,21 @@ data "aws_iam_policy_document" "scp_policy" {
         content {
             sid       = "RestrictRegion"
             effect    = "Deny"
-            actions   = ["*"]
+            not_actions = [
+                "budgets:*",
+                "ce:*",
+                "cloudfront:*",
+                "cur:*",
+                "health:*",
+                "iam:*",
+                "organizations:*",
+                "route53:*",
+                "route53domains:*",
+                "support:*",
+                "waf:*",
+                "wafv2:*",
+                "firehose:*"
+            ]
             resources = ["*"]
             condition {
               test     = "StringNotEquals"

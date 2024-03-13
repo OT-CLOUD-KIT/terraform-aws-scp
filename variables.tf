@@ -22,13 +22,13 @@ variable targets {
   default     = ([])
 }
 
-variable allow_only_approved_services {
+variable deny_only_approved_services {
   type        = bool
   description = "Allow creation of only approved services."
   default     = false
 }
 
-variable allowed_services {
+variable deny_services {
   type        = list(string)
   description = "A list of string for allowed services to use in the accounts if `allow_only_approved_services` is `true"
   default     = [""]

@@ -1,5 +1,5 @@
 locals{
-    allow_only_approved_services                    = var.allow_only_approved_services ? [""] : []
+    deny_only_approved_services                     = var.deny_only_approved_services ? [""] : []
     deny_root_user_access                           = var.deny_root_user_access ? [""] : []
     region_enforcement                              = var.region_enforcement ? [""] : []
     deny_ability_to_leave_Organization              = var.deny_ability_to_leave_Organization ? [""] : []
