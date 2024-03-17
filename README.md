@@ -127,14 +127,21 @@ SCP Policies
 | allow_only_approved_Ec2_instance_types  | Allow creation of specific ec2 instance type |  
 | deny_creating_iam_access_keys  | Deny creating iam access keys and iam user. | 
 
-Inputs
+# Inputs :
+
+General Variables
 ------
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | name | Name to be assigned on the policy | `string` | "" | Yes
 | type | Type of policy to create. Valid values are AISERVICES_OPT_OUT_POLICY, BACKUP_POLICY, SERVICE_CONTROL_POLICY (SCP), and TAG_POLICY. Defaults to SERVICE_CONTROL_POLICY | `string` | SERVICE_CONTROL_POLICY | Yes |
-| tags | Key-value tags to implement on policies. | `map(string)` | {} | No |
 | targets | Lists of OU's or account id's to attach SCP's | `set(string)` | ([]) | Yes |
+| tags | Key-value tags to implement on policies. | `map(string)` | {} | No |
+
+SCP Rules Variables
+------
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
 | deny_creation_of_unencrypted_ebs_volume | Deny creation of unencrypted ebs. | `bool` | true | No
 | deny_RDS_unencrypted | Deny creation of unencrypted RDS | `bool` | true | No                       
 | deny_unencrypted_object_uploads_statement | Deny uploading unencrypted data in S3. | `bool` | true | No
