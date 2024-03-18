@@ -41,17 +41,17 @@ In this below policies will be implemented as default :
 ```
 module "policy" {
   source  = "../../"
-  name    = "development" # Policy name
+  scp_policy_name    = "development" # Policy name
 
   # Specify target on which policies will be imposed (like OU's or specific account ids)
-  targets = var.ou_targets
+  scp_targets = var.ou_targets
 }
 ```
 ### *With Combined policies enabled:*
 ```
 module "policy" {
   source = "../../"
-  name   = "development"
+  scp_policy_name   = "development"
 
   # For denying specific services
   deny_only_approved_services = true
@@ -70,8 +70,8 @@ module "policy" {
 
   # Require tags on resources
   require_tag_on_specific_resources = true
-  actions                           = ["ec2:RunInstances"]
-  resources                         = ["arn:aws:ec2:*:*:instance/*"]
+  actions_denied_incase_no_tags                           = ["ec2:RunInstances"]
+  selected_resources_arns                         = ["arn:aws:ec2:*:*:instance/*"]
   resources_tag = [{
       test     = "Null"
       variable = "Owner"
@@ -100,7 +100,7 @@ module "policy" {
   deny_creating_iam_access_keys = true
 
   # Specify target on which policies will be imposed (like OU's or specific account ids)
-  targets                       = var.ou_targets
+  scp_targets                       = var.ou_targets
 }
 ```
 
@@ -133,10 +133,9 @@ General Variables
 ------
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| name | Name to be assigned on the policy | `string` | "" | Yes
-| type | Type of policy to create. Valid values are AISERVICES_OPT_OUT_POLICY, BACKUP_POLICY, SERVICE_CONTROL_POLICY (SCP), and TAG_POLICY. Defaults to SERVICE_CONTROL_POLICY | `string` | SERVICE_CONTROL_POLICY | Yes |
-| targets | Lists of OU's or account id's to attach SCP's | `set(string)` | ([]) | Yes |
-| tags | Key-value tags to implement on policies. | `map(string)` | {} | No |
+| scp_policy_name | Name to be assigned on the policy | `string` | "" | Yes
+| scp_targets | Lists of OU's or account id's to attach SCP's | `set(string)` | ([]) | Yes |
+| scp_tags | Key-value tags to implement on policies. | `map(string)` | {} | No |
 
 SCP Rules Variables
 ------
@@ -155,8 +154,8 @@ deny_ability_to_modify_specific_IAM_role | Deny modification of specific IAM Rol
 protect_iam_role_resources | Specify IAM role ARN for protecting it against deleting and modifications , if `deny_ability_to_modify_specific_IAM_role` is `true` | `list(string)` | [] | No
 deny_deleting_amazon_VPC_flowlogs | Deny deletion of VPC flowlogs. | `bool` | false | No
 deny_resource_creation_with_no_tag |  Specify the resources which should have tags imposed |`bool` | false | No  
-actions | AWS actions on which the Deny Creation of Resource With No Tag is imposed, if `deny_resource_creation_with_no_tag` is `true` | `list(string)` | [] | No
-resources | ARN's on which the Deny Creation of Resource With No Tag is imposed, if `deny_resource_creation_with_no_tag` is `true` | `list(string)` | [] | No
+actions_denied_incase_no_tags | AWS actions on which the Deny Creation of Resource With No Tag is imposed, if `deny_resource_creation_with_no_tag` is `true` | `list(string)` | [] | No
+selected_resources_arns | ARN's on which the Deny Creation of Resource With No Tag is imposed, if `deny_resource_creation_with_no_tag` is `true` | `list(string)` | [] | No
 resourcetag_map | key and value as tags required on resources while creation, if `deny_resource_creation_with_no_tag` is `true`. A single key can be passed with a multiple values  | `list(object)` | [] | No                                                 
 require_IMDSv2 | Require ec2 to use IMDSv2 | `bool` | false | No                            
 deny_modifying_S3_Block_Public_Access | Deny modification of S3 public access. | `bool` | false | No      

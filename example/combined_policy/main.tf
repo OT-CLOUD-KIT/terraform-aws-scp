@@ -4,7 +4,7 @@ provider "aws" {
 
 module "policy" {
   source = "../../"
-  name   = "development" # Policy name
+  scp_policy_name   = "development" # Policy name
 
   # For denying specific services
   deny_only_approved_services = true
@@ -23,8 +23,8 @@ module "policy" {
 
   # Require tags on resources
   deny_resource_creation_with_no_tag = true
-  actions                           = ["ec2:RunInstances"]
-  resources                         = ["arn:aws:ec2:*:*:instance/*"]
+  actions_denied_incase_no_tags     = ["ec2:RunInstances"]
+  selected_resources_arns           = ["arn:aws:ec2:*:*:instance/*"]
   resources_tag = [{
       test     = "Null"
       variable = "Owner"
@@ -54,5 +54,5 @@ module "policy" {
   deny_creating_iam_access_keys = true
 
   # Specify target on which policies will be imposed (like OU's or specific account ids)
-  targets = var.ou_targets
+  scp_targets = var.ou_targets
 }

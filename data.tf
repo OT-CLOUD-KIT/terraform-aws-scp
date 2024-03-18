@@ -89,8 +89,8 @@ data "aws_iam_policy_document" "scp_policy" {
         content{
             sid             = "DenyCreateResourceWithNoTag"
             effect          = "Deny"
-            actions  = var.actions
-            resources = var.resources
+            actions         = var.actions_denied_incase_no_tags
+            resources       = var.selected_resources_arns
             dynamic "condition" {
                 for_each = var.resources_tag != null ? var.resources_tag : []
                 content {

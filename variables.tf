@@ -1,22 +1,22 @@
-variable name {
+variable scp_policy_name {
   type        = string
   description = "Name that is to be assigned to the policy"
   default     = ""
 }
 
-variable type {
+variable scp_policy_type {
   type        = string
   description = "The type of policy to create. Valid values are AISERVICES_OPT_OUT_POLICY, BACKUP_POLICY, SERVICE_CONTROL_POLICY (SCP), and TAG_POLICY. Defaults to SERVICE_CONTROL_POLICY"
   default     = "SERVICE_CONTROL_POLICY"
 }
 
-variable tags {
+variable scp_tags {
   type        = map(string)
   description = "Key-value map of resource tags."
   default     = {}
 }
 
-variable targets {
+variable scp_targets {
   type        = set(string)
   description = "Lists of OU and account id's to attach SCP"
   default     = ([])
@@ -82,13 +82,13 @@ variable deny_resource_creation_with_no_tag {
   default     = false
 }
 
-variable "actions" {
+variable "actions_denied_incase_no_tags" {
   type    = list(string)
   description = "AWS actions on which the Deny Creation of Resource With No Tag is imposed"
   default = []
 }
 
-variable "resources" {
+variable "selected_resources_arns" {
   type    = list(string)
   description = "ARN's on which the Deny Creation of Resource With No Tag is imposed"
   default = []

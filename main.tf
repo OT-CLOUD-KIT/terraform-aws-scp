@@ -1,18 +1,18 @@
 resource "aws_organizations_policy" "scp" {
-  name        = var.name
-  description = "${var.name}-scp"
+  name        = var.scp_policy_name
+  description = "${var.scp_policy_name}-scp"
   content     = data.aws_iam_policy_document.scp_policy.json
-  type        = var.type
+  type        = var.scp_policy_type
   tags        = merge(
     {
-      Name = format("%s", var.name)
+      Name = format("%s", var.scp_policy_name)
     },
-    var.tags
+    var.scp_tags
   )
 }
 
 resource "aws_organizations_policy_attachment" "scp_attachment" {
-  for_each  = var.targets
+  for_each  = var.scp_targets
   policy_id = join("", aws_organizations_policy.scp.*.id)
   target_id = each.value
 }
