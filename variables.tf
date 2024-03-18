@@ -4,12 +4,6 @@ variable scp_policy_name {
   default     = ""
 }
 
-variable scp_policy_type {
-  type        = string
-  description = "The type of policy to create. Valid values are AISERVICES_OPT_OUT_POLICY, BACKUP_POLICY, SERVICE_CONTROL_POLICY (SCP), and TAG_POLICY. Defaults to SERVICE_CONTROL_POLICY"
-  default     = "SERVICE_CONTROL_POLICY"
-}
-
 variable scp_tags {
   type        = map(string)
   description = "Key-value map of resource tags."

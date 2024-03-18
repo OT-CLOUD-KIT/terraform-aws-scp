@@ -2,7 +2,7 @@ resource "aws_organizations_policy" "scp" {
   name        = var.scp_policy_name
   description = "${var.scp_policy_name}-scp"
   content     = data.aws_iam_policy_document.scp_policy.json
-  type        = var.scp_policy_type
+  type        = "SERVICE_CONTROL_POLICY"
   tags        = merge(
     {
       Name = format("%s", var.scp_policy_name)
